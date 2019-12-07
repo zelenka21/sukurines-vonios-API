@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Http\Resources\UserResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
@@ -48,7 +49,17 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+      //  return new UserResource($user);
+
+
+
+        if (!$user) {
+            return response("not found", 404);
+        }
+        else 
+        {
+            return new UserResource($user);
+        }
 
 
     }

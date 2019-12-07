@@ -24,3 +24,8 @@ Route::apiResource('apartments.reviews', 'ReviewController');
 
 Route::apiResource('users', 'UserController');
 Route::apiResource('users.reservations', 'ReservationController');
+
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'not found'], 404);
+});
