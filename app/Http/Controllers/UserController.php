@@ -52,7 +52,6 @@ class UserController extends Controller
       //  return new UserResource($user);
 
 
-
         if (!$user) {
             return response("not found", 404);
         }
