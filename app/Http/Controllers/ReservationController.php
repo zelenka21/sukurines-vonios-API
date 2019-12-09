@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Reservation;
 use App\User;
+use Auth;
 use App\Http\Resources\ReservationResource;
 
 
 class ReservationController extends Controller
 {
+    public function __construct(){
+
+    
+        $this->authorizeResource(Reservation::class, null, [
+        'except' => ['index', 'show'],]);
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +38,8 @@ class ReservationController extends Controller
     {
         //
         $reservation = Reservation::create([
-            'user_id' => $user->id, //update to auth
+            //'user_id' => $user->id, //update to auth
+            'user_id' => Auth::user()->id, //recent
             'apartment_id' => $request->apartment_id,
             'guestCount' => $request->guestCount,
             'arrival' => $request->arrival,
@@ -38,7 +47,6 @@ class ReservationController extends Controller
         ]);
         return response(new ReservationResource($reservation), 201);
     }
-
     /**
      * Display the specified resource.
      *

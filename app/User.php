@@ -48,6 +48,12 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasMany(Apartment::class);
     }
 
+public function apartmentsOwned(){
+  return $this->belongsToMany( 'App\Apartment', 'apartments_owners', 'user_ap_id', 'apartment_us_id' );
+}
+
+
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Apartment;
 use App\Review;
+use App\User;
+use Auth;
 use App\Http\Resources\ApartmentResource;
 
 class ApartmentController extends Controller
@@ -14,6 +16,13 @@ class ApartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+
+       //this->authorizeResource(Apartment::class,'apartment');
+        $this->authorizeResource(Apartment::class,'apartment', [
+        'except' => ['index', 'show'],]);
+    }
+
     public function index()
     {
 
@@ -29,7 +38,27 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //store with policy
+//         if( Auth::user()->can('create', [ Apartment::class ] ) ){
+//                 $apartment = Apartment::create(
+//                 [
+//                 'title' => $request->title,
+//                 'description' => $request->description,
+//                 'location' => $request->location,
+//                 'image' => $request->image,
+//                 ]);
+
+//                 //return new ApartmentResource($apartment);
+
+//                 return response(new ApartmentResource($apartment), 201);
+//         }
+//         else
+//         {
+// return response()->json('This action is unauthorized.', 403);
+//         }
+
+
+        //regular store
         $apartment = Apartment::create(
         [
         'title' => $request->title,
@@ -38,7 +67,6 @@ class ApartmentController extends Controller
         'image' => $request->image,
         ]);
 
-        //return new ApartmentResource($apartment);
 
         return response(new ApartmentResource($apartment), 201);
 

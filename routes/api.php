@@ -38,12 +38,15 @@ use Illuminate\Http\Request;
 Route::post('login', 'ApiController@login');
 Route::post('register', 'ApiController@register');
 
+
+
+
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('logout', 'ApiController@logout');
 
 
     Route::apiResource('apartments', 'ApartmentController');
-    Route::apiResource('reviews', 'ReviewController');
+   // Route::apiResource('reviews', 'ReviewController');
 
     Route::apiResource('apartments.reviews', 'ReviewController');
 

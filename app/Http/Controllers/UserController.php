@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\Apartment;
 use App\Http\Resources\UserResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
+    public function __construct(){
+
+       $this->authorizeResource(User::class,'user');
+    }
     /**
      * Display a listing of the resource.
      *

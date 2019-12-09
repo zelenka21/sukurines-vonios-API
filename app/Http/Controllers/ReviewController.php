@@ -4,12 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Review;
-
+use App\User;
+use Auth;
 use App\Apartment;
 use App\Http\Resources\ReviewResource;
 
+
 class ReviewController extends Controller
 {
+
+     public function __construct(){
+
+      //  $this->authorizeResource(Review::class, 'review')->except(['index', 'show']);
+
+$this->authorizeResource(Review::class, null, [
+        'except' => ['index', 'show'],]);
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -28,13 +39,12 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Apartment $apartment)
+    public function store(Request $request)
     {
         
             $review = Review::create([
-                //'user_id' => $request->user()->id,
-                'user_id' => 1,
-                'apartment_id' => $apartment->id,
+                'user_id' => Auth::user()->id, //recent
+                'apartment_id' => $request->apartment_id,
                 'title' => $request->title,
                 'reviewText' => $request->reviewText,
                 'rating' => $request->rating,
@@ -55,17 +65,7 @@ class ReviewController extends Controller
      */
     public function show(Apartment $apartment, $id)
     {
-        //return new ReviewResource($review);
-        //padaryt kad grazinti 404 review blogo apartment
- // check if currently authenticated user is the owner of the book
-      // if ($request->user()->id !== $book->user_id) {
-      //   return response()->json(['error' => 'You can only edit your own books.'], 403);
-      // }
-
-      // $book->update($request->only(['title', 'description']));
-
-      // return new BookResource($book);
-        // dd($review);
+  
         $review = Review::find($id);
 
         if (!$review) {
@@ -106,9 +106,9 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Apartment $apartment,Review $review)
     {
-        //
+        //Request $request, 
         $review->delete();
         return response('', 204);
     }

@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -68,6 +69,15 @@ class Handler extends ExceptionHandler
           return response()->json('Unauthorized', 403);
 
         }
+        if($exception instanceof AccessDeniedHttpException) {
+
+          return response()->json('This action is unauthorized.', 403);
+
+        }
+
+            
+
+
 
         }
 

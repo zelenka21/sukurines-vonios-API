@@ -20,4 +20,9 @@ class Apartment extends Model
     public function reservations(){
     	return $this->hasMany(Reservation::class);
     }
+
+public function ownedBy(){
+    return $this->belongsToMany( 'App\Models\User', 'apartments_owners', 'apartment_id', 'user_id' );
+    }
+
 }
