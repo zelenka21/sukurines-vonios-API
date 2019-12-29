@@ -14,3 +14,9 @@ Created for Web Application design module.
     php artisan migrate
 
     php artisan serve
+   
+## Features
+
+    - JWT authentication
+    - User roles and policies (Registered user, administrator, home owner)
+    
